@@ -7,7 +7,8 @@
 var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
-var Blank = require('./Blank');
+var MadlibForm = require('./MadlibForm');
+var MadlibStory = require('./MadlibStory');
 
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
@@ -16,67 +17,89 @@ var Blank = require('./Blank');
 require('../../styles/normalize.css');
 require('../../styles/main.css');
 
-// read and parse madlib json
-var madlib = require('../../madlibs/myFirstMadlib.json');
-
-var madlibText = madlib.madlib.join('');
-
-var blankRegex = /%%.+?%%/g;
-var madlibBlanks = madlibText.match(blankRegex).map(function(match) {
-    // remove templating %'s from matches
-    // and ensure first letter is capitalized, rest lower case
-    return match.substr(2, 1).toUpperCase() + 
-           match.substr(3, match.length - 5).toLowerCase();
-});
-
 var MadlibsApp = React.createClass({
     getInitialState: function() {
+        // App should be initialized with a string of HTML converted from
+        // a markdown document with special templating in props.madlib
+        var madlib = this.props.madlib;
+        var blankRegex = /%%.+?%%/g;
+        // create array of madlib blanks, in order
+        var madlibBlanks = madlib.match(blankRegex).map(function(match) {
+            // remove templating %'s from matches
+            // standardize to lower case
+            return match.substr(2, match.length - 4).toLowerCase();
+        });
+
+        // initialized filled array, which should always be the same length
+        // as madlibBlanks, with all slots initially blank.
+        var filled = madlibBlanks.map(function(x) {
+            return "";
+        });
+
         return {
-            text: madlibText,
+            html: madlib,
             blanks: madlibBlanks,
-            filled: [],
+            filled: filled,
             submitted: false
         }
     },
     render: function() {
         var blanks = this.state.blanks;
-        if (!this.state.submitted) {
-            var inputs = blanks.map(function(blank, i) {
-                return (
-                    <Blank
-                        key={i}
-                        pos={blank}
-                        handleBlankFilled={this.handleBlankFilled} />
-                );
-            }, this);
+        var formOrStory;
 
-            return (
-                <form action="">
-                    {inputs}
-                    <input type="submit" onClick={this.handleFormSubmit} />
-                </form>
-            )
+        if (!this.state.submitted) {
+            formOrStory = (
+                <MadlibForm
+                    blanks={blanks}
+                    filled={this.state.filled}
+                    handleBlankFilled={this.handleBlankFilled}
+                    handleFormSubmit={this.handleFormSubmit} />
+            );
         } else {
-            var text = this.state.text;
+            var html = this.state.html;
+            // Replace templated blanks with filled content, one at a time.
+            // Sanitize Parts-of-speech text for when we allow users to 
+            // submit their own madlib markdown docs.
+
             for (var i = 0; i < blanks.length; i++) {
-                text = text.replace(/%%.+?%%/, this.state.filled[i]);
+
+                html = html.replace(/%%(.+?)%%/, 
+                    function(match, capture) {
+                        var sanitized = this.replaceBrackets(capture);
+                        return  (
+                            '<span class="filled-blank">' + 
+                                this.state.filled[i] + 
+                                '<span class="pos">' + 
+                                    sanitized +
+                                '</span>' +
+                            '</span>'
+                        );                    
+                    }.bind(this));
+
             };
 
-            return (
-                <div className='main'>
-                    {text}
-                </div>
-            );            
+            formOrStory = (
+                <MadlibStory html={html} />
+            );
         }
+
+        return (
+            <div className='main'>
+                {formOrStory}
+            </div>
+        );
     },
     handleBlankFilled: function(index, value) {
         var filled = this.state.filled.slice(0);
-        filled[index] = value;
+        filled[index] = this.replaceBrackets(value);
         this.setState({filled: filled});
     },
     handleFormSubmit: function(e) {
         this.setState({submitted: true});
         return false;
+    },
+    replaceBrackets: function(str) {
+        return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 });
 

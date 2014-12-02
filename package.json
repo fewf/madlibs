@@ -10,8 +10,7 @@
   "mainInput": "main",
   "mainOutput": "main",
   "dependencies": {
-    "json-loader": "^0.5.1",
-    "react": "~0.11.2",
+    "react": "^0.11.2",
     "react-router": "^0.7.0"
   },
   "devDependencies": {

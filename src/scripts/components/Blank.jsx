@@ -9,20 +9,24 @@ require('../../styles/Blank.css');
 
 var Blank = React.createClass({
     render: function () {
+        var name = "fill" + this.props.key;
         return (
-            <div>
-                <p>{this.props.pos}</p>
-                <input
-                    type="text"
-                    onBlur={this.handleLostFocus}
-                    required />
-            </div>
+            <li>
+                <label>
+                    <input
+                        className="blank"
+                        type="text"
+                        value={this.props.fill}
+                        onChange={this.handleChange}
+                        required />
+                    
+                    {this.props.pos}
+                </label>
+            </li>
         );
     },
-    handleLostFocus: function(e) {
-        if (e.target.value !== "") {
-            this.props.handleBlankFilled(this.props.key, e.target.value);
-        }
+    handleChange: function(e) {
+        this.props.handleBlankFilled(this.props.key, e.target.value);
     }
 });
 
