@@ -17,7 +17,7 @@ var MadlibForm = React.createClass({
                     key={i}
                     pos={blank}
                     fill={this.props.filled[i]}
-                    handleBlankFilled={this.props.handleBlankFilled} />
+                    handleBlankChanged={this.props.handleBlankChanged} />
             );
         }, this);
 

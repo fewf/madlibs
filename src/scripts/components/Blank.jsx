@@ -26,7 +26,7 @@ var Blank = React.createClass({
         );
     },
     handleChange: function(e) {
-        this.props.handleBlankFilled(this.props.key, e.target.value);
+        this.props.handleBlankChanged(this.props.key, e.target.value);
     }
 });
 

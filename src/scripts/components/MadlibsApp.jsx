@@ -53,7 +53,7 @@ var MadlibsApp = React.createClass({
                 <MadlibForm
                     blanks={blanks}
                     filled={this.state.filled}
-                    handleBlankFilled={this.handleBlankFilled}
+                    handleBlankChanged={this.handleBlankChanged}
                     handleFormSubmit={this.handleFormSubmit} />
             );
         } else {
