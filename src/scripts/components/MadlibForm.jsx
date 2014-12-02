@@ -7,7 +7,6 @@
 var React = require('react/addons');
 require('../../styles/MadlibForm.css');
 
-
 var Blank = require('./Blank');
 
 var MadlibForm = React.createClass({
@@ -27,7 +26,7 @@ var MadlibForm = React.createClass({
                 className="madlib-form"
                 action=""
                 onSubmit={this.props.handleFormSubmit}>
-
+                <h2>Fill in the Madlib here</h2>
                 <ul>
                     {inputs}
                 </ul>
