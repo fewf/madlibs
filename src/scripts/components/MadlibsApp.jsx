@@ -45,6 +45,7 @@ var MadlibsApp = React.createClass({
     },
     render: function() {
         var blanks = this.state.blanks;
+
         var formOrStory;
 
         if (!this.state.submitted) {
@@ -89,7 +90,8 @@ var MadlibsApp = React.createClass({
             </div>
         );
     },
-    handleBlankFilled: function(index, value) {
+    handleBlankChanged: function(index, value) {
+        // updated filled array with new value
         var filled = this.state.filled.slice(0);
         filled[index] = this.replaceBrackets(value);
         this.setState({filled: filled});
@@ -99,6 +101,7 @@ var MadlibsApp = React.createClass({
         return false;
     },
     replaceBrackets: function(str) {
+        // prevent XSS by removing pointy brackets
         return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 });
