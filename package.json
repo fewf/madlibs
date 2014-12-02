@@ -10,8 +10,7 @@
   "mainInput": "main",
   "mainOutput": "main",
   "dependencies": {
-    "react": "^0.11.2",
-    "react-router": "^0.7.0"
+    "react": "^0.11.2"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
