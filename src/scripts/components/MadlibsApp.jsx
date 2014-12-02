@@ -58,6 +58,9 @@ var MadlibsApp = React.createClass({
             );
         } else {
             var html = this.state.html;
+            var safeFilled = this.state.filled.map(function(fill) {
+                return this.replaceBrackets(fill);
+            }, this);
             // Replace templated blanks with filled content, one at a time.
             // Sanitize Parts-of-speech text for when we allow users to 
             // submit their own madlib markdown docs.
@@ -69,7 +72,7 @@ var MadlibsApp = React.createClass({
                         var sanitized = this.replaceBrackets(capture);
                         return  (
                             '<span class="filled-blank">' + 
-                                this.state.filled[i] + 
+                                safeFilled[i] + 
                                 '<span class="pos">' + 
                                     sanitized +
                                 '</span>' +
@@ -93,7 +96,7 @@ var MadlibsApp = React.createClass({
     handleBlankChanged: function(index, value) {
         // updated filled array with new value
         var filled = this.state.filled.slice(0);
-        filled[index] = this.replaceBrackets(value);
+        filled[index] = value;
         this.setState({filled: filled});
     },
     handleFormSubmit: function(e) {
