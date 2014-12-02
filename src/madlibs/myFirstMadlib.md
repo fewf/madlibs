@@ -7,6 +7,6 @@ And here's a look at what %%verb ending in -ing%% Markdown allows for!
 
 - I can have unordered lists with blanks?! %%exclamation%%!!
 
-And how about some emphasis? Something like **%%favorite color%%**.
+And how about some emphasis? Something like **_%%favorite color%%_**.
 
 You won't find any better Madlib generator than this on [%%your favorite search engine%%](https://www.bing.com)
