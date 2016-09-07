@@ -5,7 +5,6 @@
 'use strict';
 
 var React = require('react/addons');
-require('../../styles/Blank.css');
 
 var Blank = React.createClass({
     render: function () {
@@ -19,7 +18,7 @@ var Blank = React.createClass({
                         value={this.props.fill}
                         onChange={this.handleChange}
                         required />
-                    
+
                     {this.props.pos}
                 </label>
             </li>

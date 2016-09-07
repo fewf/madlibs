@@ -5,7 +5,6 @@
 'use strict';
 
 var React = require('react/addons');
-require('../../styles/MadlibStory.css');
 
 var MadlibStory = React.createClass({
 	render: function () {

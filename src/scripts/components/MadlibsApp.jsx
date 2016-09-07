@@ -13,9 +13,6 @@ var MadlibStory = require('./MadlibStory');
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
 
-// CSS
-require('../../styles/normalize.css');
-require('../../styles/main.css');
 
 var MadlibsApp = React.createClass({
     getInitialState: function() {
@@ -62,22 +59,22 @@ var MadlibsApp = React.createClass({
                 return this.replaceBrackets(fill);
             }, this);
             // Replace templated blanks with filled content, one at a time.
-            // Sanitize Parts-of-speech text for when we allow users to 
+            // Sanitize Parts-of-speech text for when we allow users to
             // submit their own madlib markdown docs.
 
             for (var i = 0; i < blanks.length; i++) {
 
-                html = html.replace(/%%(.+?)%%/, 
+                html = html.replace(/%%(.+?)%%/,
                     function(match, capture) {
                         var sanitized = this.replaceBrackets(capture);
                         return  (
-                            '<span class="filled-blank">' + 
-                                safeFilled[i] + 
-                                '<span class="pos">' + 
+                            '<span class="filled-blank">' +
+                                safeFilled[i] +
+                                '<span class="pos">' +
                                     sanitized +
                                 '</span>' +
                             '</span>'
-                        );                    
+                        );
                     }.bind(this));
 
             };
